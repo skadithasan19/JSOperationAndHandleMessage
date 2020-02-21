@@ -11,10 +11,13 @@ import WebKit
 
 class ViewController: UIViewController {
      
+    let totalNunberOfRunningOperation = 5
+    
     var mainWebView = WKWebView()
 
     var messages:[JMessage] = []
    
+    var groupedMessages = [Int:[JMessage]]()
     @IBOutlet weak var stackView: UIStackView!
     
     @IBOutlet weak var statusTable: UITableView!
@@ -36,6 +39,7 @@ class ViewController: UIViewController {
                            multiplier: 1,
                            constant: 100).isActive = true
         statusTable.dataSource = self
+        statusTable.delegate = self
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -98,31 +102,52 @@ extension ViewController: WKScriptMessageHandler {
     // Showing JS message in Native Tableview UI
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
          if(message.name == "jumbo") {
-            print("Jumbo Message body - \(message.body)")
+            //print("Jumbo Message body - \(message.body)")
             if let str = message.body as? String, let messageDictionary = str.convertToDictionary() {
                 self.messages.append(JMessage(json: messageDictionary))
             }
+           // statusTable.scrollToRow(at: IndexPath(row: messages.count - 1, section: 0), at: .bottom, animated: true)
+            groupedMessages = messages.categorise({ $0.id })
+             
             statusTable.reloadData()
-            statusTable.scrollToRow(at: IndexPath(row: messages.count - 1, section: 0), at: .bottom, animated: true)
          }
     }
 }
  
 //// Displaying Message in TableView
-extension ViewController: UITableViewDataSource {
+extension ViewController: UITableViewDataSource,UITableViewDelegate {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return groupedMessages.keys.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messages.count
+        let key = groupedMessages.keys.compactMap({ $0 }).sorted()[section]
+        let messages = groupedMessages[key]
+        return messages?.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 55
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let key = groupedMessages.keys.compactMap({ $0 }).sorted(by: { $0 > $1 })[section]
+        return "startOperation(\(key))"
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! StatusViewCell
-        let message = messages[indexPath.row]
-        cell.idLabel?.text = "ID: \(message.id)"
-        cell.progressLabel?.text = "Progress: \(message.progress)"
-        cell.messageLabel?.text = "Status: \(message.message)"
-         
-        let customColour = UIColor(red:   .random(),green: .random(),blue:  .random(), alpha: 1.0)
-        cell.contentView.backgroundColor = customColour
+        let key = groupedMessages.keys.compactMap({ $0 }).sorted()[indexPath.section]
+        
+        if let messages = groupedMessages[key]?.sorted(by: { $0.progress > $1.progress }) {
+            let message = messages[indexPath.row]
+            cell.idLabel?.text = "ID: \(message.id)"
+            cell.progressLabel?.text = "Progress: \(message.progress)"
+            cell.messageLabel?.text = "Status: \(message.message)"
+        }
+//        let customColour = UIColor(red:   .random(),green: .random(),blue:  .random(), alpha: 1.0)
+//        cell.contentView.backgroundColor = customColour
         return cell
     }
 }
@@ -130,10 +155,22 @@ extension ViewController: UITableViewDataSource {
 extension ViewController:WKNavigationDelegate, WKUIDelegate {
     /// Starting Operation when WKWebView loading Successfully
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        for i in 1...5 { // Running startOperation Multiple times
+        for i in 1...totalNunberOfRunningOperation { // Running startOperation Multiple times
             print("Invoked startOperatation(\(i))")
             startOperation(randomNum: i)
         }
     }
 }
 
+
+
+public extension Sequence {
+    func categorise<U : Hashable>(_ key: (Iterator.Element) -> U) -> [U:[Iterator.Element]] {
+        var dict: [U:[Iterator.Element]] = [:]
+        for el in self {
+            let key = key(el)
+            if case nil = dict[key]?.append(el) { dict[key] = [el] }
+        }
+        return dict
+    }
+}
