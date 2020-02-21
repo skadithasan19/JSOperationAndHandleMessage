@@ -140,7 +140,7 @@ extension ViewController: UITableViewDataSource,UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! StatusViewCell
         let key = groupedMessages.keys.compactMap({ $0 }).sorted()[indexPath.section]
         
-        if let messages = groupedMessages[key]?.sorted(by: { $0.progress > $1.progress }) {
+        if let messages = groupedMessages[key] { //}?.sorted(by: { $0.progress > $1.progress }) {
             let message = messages[indexPath.row]
             cell.idLabel?.text = "ID: \(message.id)"
             cell.progressLabel?.text = "Progress: \(message.progress)"
