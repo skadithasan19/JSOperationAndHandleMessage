@@ -40,7 +40,7 @@ class ViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let stri = "<head><head><html><body><h1></h1></body></html>"
+        let stri = "<head><head><html><body><h1>WKWebview Loaded</h1></body></html>"
         mainWebView.loadHTMLString(stri, baseURL: nil)
     }
     
@@ -78,8 +78,7 @@ class ViewController: UIViewController {
     }
     
     // Call startOperation from native controls
-    @objc func startOperation(){
-        let randomNum = Int(arc4random_uniform(UInt32(100 + 1))) /// Added for Testing
+    @objc func startOperation(randomNum:Int){
         evaluateWithJavaScriptFunction(jsExpression: "startOperation(\(randomNum));")
     }
     
@@ -121,6 +120,9 @@ extension ViewController: UITableViewDataSource {
         cell.idLabel?.text = "ID: \(message.id)"
         cell.progressLabel?.text = "Progress: \(message.progress)"
         cell.messageLabel?.text = "Status: \(message.message)"
+         
+        let customColour = UIColor(red:   .random(),green: .random(),blue:  .random(), alpha: 1.0)
+        cell.contentView.backgroundColor = customColour
         return cell
     }
 }
@@ -128,7 +130,10 @@ extension ViewController: UITableViewDataSource {
 extension ViewController:WKNavigationDelegate, WKUIDelegate {
     /// Starting Operation when WKWebView loading Successfully
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        startOperation()
+        for i in 1...5 { // Running startOperation Multiple times
+            print("Invoked startOperatation(\(i))")
+            startOperation(randomNum: i)
+        }
     }
 }
 
