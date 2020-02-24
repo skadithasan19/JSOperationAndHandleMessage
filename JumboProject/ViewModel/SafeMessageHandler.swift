@@ -16,8 +16,7 @@ class SafeMessageHandler : NSObject, WKScriptMessageHandler {
         self.delegate = delegate
         super.init()
     }
-    func userContentController(_ userContentController: WKUserContentController,
-                               didReceive message: WKScriptMessage) {
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         self.delegate?.userContentController(userContentController, didReceive: message)
     }
 }

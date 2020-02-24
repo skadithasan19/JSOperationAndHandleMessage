@@ -19,6 +19,9 @@
 		3C04A66223FF183400F46B37 /* JumboProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C04A66123FF183400F46B37 /* JumboProjectTests.swift */; };
 		3C04A67123FF2C6000F46B37 /* SafeMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C04A67023FF2C6000F46B37 /* SafeMessageHandler.swift */; };
 		3C04A67523FF310200F46B37 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 3C04A67423FF310100F46B37 /* README.md */; };
+		3C8E4BB3240440C4001794A1 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8E4BB2240440C4001794A1 /* Utilities.swift */; };
+		3C8E4BB524044725001794A1 /* JMWebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8E4BB424044725001794A1 /* JMWebViewModel.swift */; };
+		3C8E4BB7240452FC001794A1 /* ProgressTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8E4BB6240452FC001794A1 /* ProgressTableViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +51,9 @@
 		3C04A66323FF183400F46B37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C04A67023FF2C6000F46B37 /* SafeMessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeMessageHandler.swift; sourceTree = "<group>"; };
 		3C04A67423FF310100F46B37 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		3C8E4BB2240440C4001794A1 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		3C8E4BB424044725001794A1 /* JMWebViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMWebViewModel.swift; sourceTree = "<group>"; };
+		3C8E4BB6240452FC001794A1 /* ProgressTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTableViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,17 +95,15 @@
 		3C04A61B23FEF52800F46B37 /* JumboProject */ = {
 			isa = PBXGroup;
 			children = (
+				3C8E4BB924045ABC001794A1 /* Utilities */,
 				3C04A65623FF075000F46B37 /* Model */,
+				3C8E4BB824045A15001794A1 /* ViewModel */,
+				3C8E4BBB24045AE3001794A1 /* Controller */,
+				3C8E4BBA24045ACC001794A1 /* View */,
+				3C04A62523FEF52A00F46B37 /* Assets.xcassets */,
 				3C04A61C23FEF52800F46B37 /* AppDelegate.swift */,
 				3C04A61E23FEF52800F46B37 /* SceneDelegate.swift */,
-				3C04A62023FEF52800F46B37 /* ViewController.swift */,
-				3C04A67023FF2C6000F46B37 /* SafeMessageHandler.swift */,
-				3C04A62223FEF52800F46B37 /* Main.storyboard */,
-				3C04A65423FF064C00F46B37 /* StatusViewCell.swift */,
-				3C04A62523FEF52A00F46B37 /* Assets.xcassets */,
-				3C04A62723FEF52A00F46B37 /* LaunchScreen.storyboard */,
 				3C04A62A23FEF52A00F46B37 /* Info.plist */,
-				3C04A65923FF088100F46B37 /* String+Utilities.swift */,
 				3C04A67423FF310100F46B37 /* README.md */,
 			);
 			path = JumboProject;
@@ -120,6 +124,43 @@
 				3C04A66323FF183400F46B37 /* Info.plist */,
 			);
 			path = JumboProjectTests;
+			sourceTree = "<group>";
+		};
+		3C8E4BB824045A15001794A1 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3C04A65423FF064C00F46B37 /* StatusViewCell.swift */,
+				3C04A67023FF2C6000F46B37 /* SafeMessageHandler.swift */,
+				3C8E4BB424044725001794A1 /* JMWebViewModel.swift */,
+				3C8E4BB6240452FC001794A1 /* ProgressTableViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3C8E4BB924045ABC001794A1 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				3C04A65923FF088100F46B37 /* String+Utilities.swift */,
+				3C8E4BB2240440C4001794A1 /* Utilities.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		3C8E4BBA24045ACC001794A1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3C04A62223FEF52800F46B37 /* Main.storyboard */,
+				3C04A62723FEF52A00F46B37 /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3C8E4BBB24045AE3001794A1 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3C04A62023FEF52800F46B37 /* ViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -226,10 +267,13 @@
 			files = (
 				3C04A62123FEF52800F46B37 /* ViewController.swift in Sources */,
 				3C04A67123FF2C6000F46B37 /* SafeMessageHandler.swift in Sources */,
+				3C8E4BB7240452FC001794A1 /* ProgressTableViewModel.swift in Sources */,
 				3C04A65A23FF088100F46B37 /* String+Utilities.swift in Sources */,
 				3C04A61D23FEF52800F46B37 /* AppDelegate.swift in Sources */,
 				3C04A65523FF064C00F46B37 /* StatusViewCell.swift in Sources */,
+				3C8E4BB524044725001794A1 /* JMWebViewModel.swift in Sources */,
 				3C04A65823FF076300F46B37 /* JMessage.swift in Sources */,
+				3C8E4BB3240440C4001794A1 /* Utilities.swift in Sources */,
 				3C04A61F23FEF52800F46B37 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
